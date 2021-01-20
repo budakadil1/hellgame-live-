@@ -1,0 +1,35 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+<div class="container">
+  <div class="card signup-card">
+    <p class="text-dark h2 font-weight-normal mt-2 text-center">Signup</p>
+  <form class="form-horizontal signup-and-loginform" action="/user/signup/" method="post" >
+    {% csrf_token %}
+    {% for field in form %}
+    <p class="text-dark h5 font-weight-normal">
+      {{field.label_tag}}
+      {{field}}
+      {% if field.help_text %}
+        <small class="text-dark h5 font-weight-light">{{field.help_text}}</small>
+      {% endif %}
+    </p>
+    {% if field.errors %}
+      <p style="color:rgb(85, 0, 0);">{{ field.errors}}</p>
+    {% endif %}
+    {% endfor %}
+    <input type="submit" class="btn btn-primary signupbtn-form" name="" value="Signup">
+    {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-danger mt-2" role="alert">
+        {{message}}
+      </div>
+    {% endfor %}
+    {% endif %}
+    <br>
+    <p class="text-dark h6 font-weight-normal mb-3">Already have an account? <a href="{% url 'user:login' %}" class="login-href"><strong>Log in</strong></a></p>
+  </form>
+  </div>
+</div>
+{% endblock %}
+

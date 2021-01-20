@@ -1,0 +1,20 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="leave-review-form card mr-5 ml-5">
+        <p class="h3 text-dark font-weight-light mt-2 ml-4 mr-4">Report an issue</p>
+        <p class="h5 text-dark font-weight-light mt-2 ml-4 mr-4">You can report anything. Other users, issues related to the website and any suggestions.</p>
+        <p class="h5 text-dark mt-2 ml-2">* - If you wish to report a user, please be sure to also include the receipt numbers.</p>
+        <form class="form-horizontal  ml-4 mr-4" method="post">
+            {% csrf_token %}
+            {% for field in form %}
+            <p class="h5 text-dark mt-2">{{field.label}}</p>
+            {{ field }}
+            {% endfor %}
+            <button type="submit" class="btn btn-warning btn-lg mt-3 mb-3">Submit Report</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+

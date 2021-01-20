@@ -1,0 +1,16 @@
+{% extends 'base_layout.html ' %}
+{% block title %}
+<title>Delete Listing</title>
+{% endblock %}
+{% block content %}
+{% if nopermission %}
+<div id="navbar-margin">
+    <h1 class="text-white text-center">It seems that you are not the owner of this listing. If you think this is a mistake, please contact an admin.</h1>
+</div>
+{% endif %}
+{% if exception %}
+<div id="navbar-margin">
+    <h1 class="text-white text-center">An exception occured {DELETELISTING:010}. Please contact an admin.</h1>
+</div>
+{% endif %}
+{% endblock %}

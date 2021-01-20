@@ -1,0 +1,95 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="profile">
+        <h1 class="profileheader">Profile</h1>
+        <div class="profiletexts">
+            {% if user.profile %}
+            <p class="text-white h5 profileusername">Username: {{ user.username }}</p>
+            {% if user.profile.user_description %}<p class="text-white h4 font-weight-light break-text">Description: {{ user.profile.user_description }}</p>
+            {% if showeditprofile == True %}
+            <a href="{% url 'user:editprofile' %}" class="btn btn-outline-warning btn-lg mt-2 mb-3">Edit Profile</a>
+            
+            {% endif %}
+            {% elif not user.profile.user_description %}
+            <p class="text-white h4 font-weight-light">This user does not have a description yet.</p> 
+            <a href="{% url 'user:editprofile' %}" class="btn btn-outline-warning btn-lg mb-3">Add a Description</a>
+            {% endif %}
+            <hr class="profileline">
+            {% if user.merchant_status == False and showeditprofile == True %}
+            <div class = 'nomerchantstatus mt-3'>
+                <p class="text-white h3 ">Merchant Status: <i class="fa fa-times"></i></p>
+                <a href="{% url 'user:editprofile' %}" class="btn btn-outline-warning btn-lg">Become a Merchant Now!</a>
+                <p class="text-white h6 mt-2 font-weight-normal">You will need a merchant status to sell items on HellGAME.</p>
+            </div>
+            {% elif user.merchant_status == False and showeditprofile == False %}
+            <div class = 'nomerchantstatus mt-3'>
+                <p class="text-white h3 ">Merchant Status: <i class="fa fa-times"></i></p>
+            </div>
+            {% elif user.merchant_status == True %}
+            <div class = 'yesmerchantstatus'>
+                <p class="text-white h5 profileusername">Merchant Status: <i class="fa fa-check"></i></p>
+            </div>
+            <p class="text-white h4 font-weight-normal">
+                Reviews for this user:
+            </p>
+            {% if score >= 75 %}
+            <p class="text-white h5">Review score: %<span class="text-success">{{score}}</span></p>
+            {% elif 50 < score < 75 %}
+            <p class="text-white h5">Review score: %<span class="text-warning">{{score}}</span></p>
+            {% elif score <= 50 %}
+            <p class="text-white h5">Review score: %<span class="text-danger">{{score}}</span></p>
+            {% else %}
+            <p class="text-white h5">Review score: %{{score}}</p>
+            {% endif %}
+            <p class="text-white h6 font-weight-normal">Positive reviews: <span style="color:#5cb85c">{{ user.profile.good_review_count }} <i class="fa fa-check" aria-hidden="true"></i></span></p>
+            <p class="text-white h6 font-weight-normal">Negative reviews: <span style="color:red">{{ user.profile.bad_review_count}} <i class="fa fa-window-close" aria-hidden="true"></i></span></p>
+            <hr class="profileline">
+            {% if reviews %}
+            <p class="text-white h5 profileusername">Reviews for this user: </p>
+            <div class="row">
+                <div class="col">
+                    <div class="list-group mb-5">
+                        {% for review in reviews %}
+
+                        <li class="list-group-item mt-1 listing-list disable-hover reviewheightcontrol mb-2">
+                            <p class="h2 font-weight-light text-dark">{{review.review_title}}</p>
+                            <p class="h5 font-weight-light text-dark">{{review.review_text|truncatechars:176}}</p>
+                            {% if review.review_type == "Positive" %}
+                            <p class="h6 text-dark">Type: <span style="color:#5cb85c">{{review.review_type}}</span></p>
+                            {% elif review.review_type == 'Negative' %}
+                            <p class="h6 text-dark">Type:  <span style="color:red">{{review.review_type}}</span></p>
+                            {% endif %}
+                            <p class="h6 text-dark listing-posted-by">User: {{review.review_from}}</p>
+                            <p class="h6 text-dark ">Date of Review: {{review.review_date}}</p>
+                        </li>
+
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% elif not reviews %}
+            <p class="text-white h5 profileusername">This user does not have any reviews yet. </p>
+            {% endif %}
+            {% elif user.profile.merchant_status == False %}
+            <div class = 'nomerchantstatus'>
+                <p class="text-white h5 profileusername">Merchant Status: <i class="fa fa-times"></i></p>
+            </div>
+            {% endif %}
+            {% elif not user.profile %}
+            <p class="text-white h5 profileusername">Oh no. This profile does not exist.</p>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<!--{% if reviewscore > 75 %}
+        <p class="h5 font-weight-normal text-dark text-center mt-3">{{product.posted_by.username}}'s review score: <span class="text-success">{{reviewscore}}</span>%</p>
+        {% elif 50 < reviewscore < 75 %}
+          <p class="h5 font-weight-normal text-dark text-center mt-3">{{product.posted_by.username}}'s review score: <span class="text-warning">{{reviewscore}}</span>%</p>
+        {% elif reviewscore <= 50 %}
+        <p class="h5 font-weight-normal text-dark text-center mt-3">{{product.posted_by.username}}'s review score: <span class="text-danger">{{reviewscore}}</span>%</p>
+        {%endif%}-->

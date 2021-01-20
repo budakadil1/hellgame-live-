@@ -1,0 +1,26 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+<div class='container'>
+    <br>
+    <p class="text-white h2 text-center" id="navbar-margin">You are browsing the category: {{category}}</p>
+    <div class="row">
+        {% for game in post %}
+        <div class="col-sm-6">
+            <div class="list-group bg-white mt-3 game-list">
+                <a href= "{% url 'accounts:game_category' game.game_slug %}">
+                    <h1 id="game_name" class="text-center mt-3">{{game.game_name}}</h1>
+                </a>
+                <hr id="line-between">
+                <a href="{% url 'accounts:game_category_list' game.game_choice %}">
+                    <p id="category_text" class="mb-3">Category = {{game.game_choice}}</p>
+                </a>
+                
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+</div>
+{% endblock %}
+

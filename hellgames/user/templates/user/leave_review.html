@@ -1,0 +1,43 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="leave-review-form card mr-2 ml-2">
+        <p class="h3 text-dark font-weight-light mt-2 ml-2">Leave a review</p>
+        <form class="form-horizontal  ml-2 mr-2" method="post">
+            {% csrf_token %}
+            {% for field in form %}
+            <p class="h5 text-dark mt-2">{{field.label}}</p>
+            {{ field }}
+            {% endfor %}
+            <button type="submit" class="btn btn-primary btn-lg mt-2 mb-2">Submit Review</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+
+
+<div class="container">
+    <div class="card signup-card">
+      <p class="text-dark h2 font-weight-normal text-center mt-2">Login</p>
+      {% if context %}
+      <p class="text-dark h3 font-weight-normal text-center mt-2">You are already logged in as: <span class="logged-in-username">{{context.username}}</span></p>
+      {% endif %}
+      <form class="form-horizontal signup-and-loginform" method="post">
+          {% csrf_token %}
+          <label for="id_username" class="text-dark h5 font-weight-normal mt-2">Email:</label>
+          <input id="id_username" name="username" type="text" class="form-control">
+          <label for="id_password" class="text-dark h5 font-weight-normal mt-2">Password:</label>
+          <input id="id_password" name="password" type="password" class="form-control">
+          {% if form.errors %}
+            <p class="text-danger ml-2 mt-3 mb-0">
+            Your email and password did not match. Please try again.
+            </p>
+          {% endif %}
+          <input type="submit" value="Login" class="btn btn-success mt-3 mb-3 " />
+          <p class="text-dark h6 font-weight-normal mb-3">Don't have an account yet? <a href="{% url 'user:signup' %}" class="login-href"><strong>Sign up</strong></a></p>
+      </form>
+    </div>
+</div>
+

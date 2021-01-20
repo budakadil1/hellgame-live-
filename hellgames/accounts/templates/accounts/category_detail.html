@@ -1,0 +1,113 @@
+{% extends 'base_layout.html' %}
+{% load filtertag %}
+{% block title %}
+<title>Listings for {{category}}</title>
+{% endblock %}
+{% block content %}
+<div class="wrapper">
+    <!-- Sidebar -->
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <h2 class="text-dark font-weight-light">Filtering Options</h3>
+        </div>
+
+        <ul class="list-unstyled components">
+            <form method="get">
+                <p class="h3 text-dark font-weight-light">Filter by:</p>
+                {% for field in filter.form %}
+                <p class="mb-1">{{field.label}}</p>
+                <li class="ml-2 mr-2 mt-0">
+                    {{field}}
+                </li>
+                {% endfor %}
+                <button class="btn custombtn-2 ml-auto mt-3 rounded-0 form-control text-light" type="submit">Filter</button>
+            </form>
+        </ul>
+    </nav>
+    <div id="content">
+        <p class="h2 text-light font-weight-light text-center">You are browsing: {{category}}</p>
+        <button type="button" id="sidebarCollapse" class="btn btn-outline-warning mb-2">
+                <span>Filtering Options</span>
+            </button>
+        <a href="{% url 'accounts:add_listing' %}" class="btn btn-danger ml-2 mb-2">Add a Listing</a>
+        <div class='listings'>
+            {% if page_obj %}
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="list-group mb-2">
+                        {% for listing in page_obj %}
+                        {% if listing.posted_by.merchant_status == True %}
+                        <a href="{% url 'accounts:game_product_view' listing.slug %}">
+                            <li class="list-group-item mt-1 listing-list disable-hover hvr-underline-from-left w-100 heightcontrol mb-2">
+                                <p class="h2 font-weight-light text-dark">{{listing.post_title|truncatechars:64}}</p>
+                                <p class="h5 font-weight-light text-dark">{{listing.post_text|truncatechars:176}}</p>
+                                <p class="h5 text-dark listing-price-tag">Price: {{listing.price}} $</p>
+                                <p class="h6 text-dark listing-posted-on">Posted on: {{listing.date}} </p>
+                                <p class="h6 text-dark listing-posted-by">Posted by: {{listing.posted_by.username}}</p>
+                                {% if listing.quantity > 1 %}
+                                <p class="h6 text-dark"><i class="fa fa-bars custombars fa-lg" aria-hidden="true" style="color: rgb(165, 0, 0);"></i><span class="listing-quantity"> Multiple Quantities: </span>{{listing.quantity}}</p>
+                                {% endif %}
+                                <!-- {% if listing.available == True %}
+                                <p class="h6 text-dark listing-post-quantity">Sold: {{listing.quantity}}</p>
+                                {% endif %} -->
+                            </li>
+                        </a>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if page_obj.has_other_pages %}
+        <div class="pagination pull-right">
+            <ul class="pagination pagination-lg">
+                {% if page_obj.has_previous %}
+                <li class="page-item"><a href="?page={{page_obj.previous_page_number}}" class="page-link">Prev. &laquo;</a></li>
+                {% endif %}
+                {% for i in page_obj.paginator.page_range %}
+                {% if page_obj.number == i %}
+                <li class="page-item active" ><a href="#" class="page-link">{{i}}</a></li>
+                {% else %}
+                <li class="page-item"><a href="?page={{i}}" class="page-link">{{i}}</a></li>
+                {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                <li class="page-item"><a href="?{% param_replace page=page_obj.next_page_number %}" class="page-link">Next &raquo;</a></li>
+                {% else %}
+                <li class="page-item"><span> &raquo;</span></li>
+                {% endif %}
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+        {% else %}
+            <h1 class="font-weight-light">Oops! No listings!</h1>
+        {% endif %}
+
+
+<!-- jQuery CDN - Slim version (=without AJAX) -->
+<!-- Popper.JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#sidebar").mCustomScrollbar({
+            theme: "minimal"
+        });
+
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar, #content').toggleClass('active');
+            $('.collapse.in').toggleClass('in');
+            $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+        });
+    });
+</script>
+
+
+
+{% endblock %}

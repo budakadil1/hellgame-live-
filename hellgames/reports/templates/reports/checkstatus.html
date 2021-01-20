@@ -1,0 +1,37 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="margin-report">
+        <div class="row no-gutters">
+            <div class="col-sm-8 report-overview">
+                {% for field in report %}
+                <p class="ml-3 mr-4 mt-3 h4">Title: {{field.post_title}}</p>
+                <p class="ml-3 mr-4 mt-3 break-text textheight h5 font-weight-light">Text: <br>{{field.post_text|truncatechars:500}}</p>
+                <p class="ml-3 mr-4 mt-3 h5">Posted by: {{field.posted_by}}</p>
+                <p class="ml-3 mr-4 mt-3 h4">Date posted: {{field.post_date}}</p>
+                
+            </div>
+    
+            <div class="col-sm-4 report-sidebar">
+                {% if field.post_status == "O" %}
+                <p class="h5 mt-3 text-center">Report Status: <span style="color:rgb(48, 145, 0);">Open</span></p>
+                <p class="mt-2 ml-3 mr-3 font-weight-light h6">This report is currently open. A moderator is assigned on this issue. The moderator will resolve the issue in a short time and you will be sent an email.</p>
+                {% endif %}
+
+                {% if field.post_status == "C" %}
+                <p class="h5 mt-3 text-center">Report Status: <span style="color:rgb(25, 0, 255);">Closed</span></p>
+                <p class="mt-2 ml-3 mr-3 font-weight-light h5">This report is resolved. You must have received emails about this issue and resolved the issue with our moderator.</p>
+                {% endif %}
+                
+                {% if field.post_status == "W" %}
+                <p class="h5 mt-3 text-center">Report Status: <span style="color:rgb(209, 155, 18);">Waiting</span></p>
+                <p class="mt-2 ml-3 mr-3 font-weight-light h5">We have received your report. A moderator will shortly be assigned to the issue. You will receive an e-mail. </p>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

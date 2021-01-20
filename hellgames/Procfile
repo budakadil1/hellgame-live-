@@ -1,0 +1,1 @@
+web: gunicorn --pythonpath hellgames hellgames.wsgi --log-file -

@@ -1,0 +1,50 @@
+{% extends 'base_layout.html' %}
+{% load static %}
+{% block title %}
+<title>HellGAME Add Listing</title>
+{% endblock %}
+{% block content %}
+{% if nologin %}
+<div id="navbar-margin">
+    <h1 class="text-white text-center">{{nologin}}</h1>
+</div>
+{% endif %}
+{% if error %}
+<div id="navbar-margin">
+    <h1 class="text-white text-center">{{error}}</h1>
+</div>
+{% endif %}
+{% if nomerchantstatus == True %}
+<div class="container" id="navbar-margin">
+  <p class="text-white h2 text-center">You need to be a merchant to do that. Please <a href="{% url 'user:editprofile' %}" class="text-warning">edit</a> your merchant status.</p>
+
+</div>
+{% elif nomerchantstatus == False %}
+{% if form %}
+<div class="container">
+    <div class="card listing-card">
+    <p class="text-dark h2 font-weight-normal mt-2 text-center">Add a Listing</p>
+    <form class="form-horizontal signup-and-loginform" method="post" >
+      {% csrf_token %}
+      {% for field in form %}
+      <p class="text-dark h5 font-weight-normal">
+        {{field.label_tag}}
+        {{field}}
+        {% if field.help_text %}
+          <p class="text-dark h5 font-weight-light">{{field.help_text}}</p>
+        {% endif %}
+      </p>
+      {% if form.errors %}
+        <p style="color:rgb(85, 0, 0);">{{field.errors}}</p>
+      {% endif %}
+      {% endfor %}
+      <button type="submit" class="btn btn-warning btn-lg signupbtn-form hvr-underline-from-left" name="">Post Listing</button>
+      <br>
+    </form>
+    </div>
+  </div>
+  <br>
+  <br>
+{% endif %}
+{% endif %}
+{% endblock %}

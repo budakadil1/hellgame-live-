@@ -1,0 +1,102 @@
+{% extends 'base_layout.html' %}
+{% block head %}
+<title>HellGAME Cart</title>
+{% endblock %}
+{% block content %}
+{% if cart %}
+<div class="container">
+    <div class="navbar-margin cart-margin">
+      <div class="row  no-gutters cart-parent">
+            <div class="col-sm-8 cart-table">
+                <table class="table table-responsive-sm">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Item Name</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for product in cart %}
+                            <tr class="table table-sizer">
+                                <td><a href="{% url 'accounts:game_product_view' product.slug %}" class="nounderline ml-1 cart-product-name">{{product.post_title|truncatechars:16}}</a></td>
+                                <td class="quantity">1</td>
+                                <td class="price">${{product.price}}</td>
+                                <td><a class="removelink" href="{% url 'shoppingcart:remove_from_cart' product.slug %}">Remove</a></td>
+                            {%endfor %}
+                            </tr>
+                        </tbody>
+                </table>
+              </div>
+              <div class="col-sm-4 checkout">
+                <div class="checkout-box">
+                  <div class="checkout-title">
+                    <p class="text-center h3 font-weight-light checkout-text">Checkout</p>
+                  </div>
+                  <div class="checkout-subtotal ml-4 mt-3">
+                    <p class="h6 checkout-sub font-weight-normal">Subtotal: <span class="pull-right mr-4 font-weight-normal">${{cart_total}}</span></p>
+                  </div>
+                  <hr class="checkout-hr ml-4 mr-4">
+                  <div class="checkout-commission ml-4 mt-3">
+                    <p class="h6 checkout-com font-weight-normal">Commission: <span class="pull-right mr-4 font-weight-normal">$0.00</span></p>
+                    <p class="h7 checkout-disclaimer font-weight-normal">Hooray! There are no commissions!</p>
+                  </div>
+                  <hr class="checkout-hr ml-4 mr-4">
+                  <div class="checkout-total ml-4 mt-3">
+                    <p class="h6 checkout-tot font-weight-normal">Total: <span class="pull-right mr-4 font-weight-normal">${{cart_total}}</span></p>
+                  </div>
+                  <div class="text-center">
+                    <a href="#" class="btn btn-block cartbtn mt-3">Checkout</a>
+                  </div>
+                  <div class="checkout-dc ml-4 mt-3 mr-4">
+                    <p class="h7 checkout-disclaimer font-weight-normal">Payment processing fees may apply. See <a href="#">Stripe</a> for more information.</p>
+                  </div>
+                  
+              </div>
+              </div>
+          </div>
+          <div class="row no-gutters">
+            <div class="col-sm-4 faq-box faq-generic">
+              <p class="text-center h3 font-weight-light checkout-text mt-2">What if something is wrong with my product?</p>
+              <p class="ml-3 mr-3 h6 font-weight-normal faq-text mt-2">We will look into the problem and issue a refund to you. We will also take appropriate courses of action for the Merchant in question.</p>
+              <p class="ml-3 mr-3 h6 font-weight-normal faq-text mt-2">Please use the <a href="{% url 'reports:index' %}">report</a> button to tell us what's wrong.</p>
+            </div>
+            <div class="col-sm-4 faq-box faq-generic">
+              <p class="text-center h3 font-weight-light checkout-text mt-2">What if I accidentally click the checkout button?</p>
+              <p class="ml-3 mr-3 h6 font-weight-normal faq-text mt-2">Please let us know by using the <a href="{% url 'reports:index' %}">report</a> button. We will be able to issue a full refund back to you.</p>
+            </div>
+            <div class="col-sm-4 faq-box">
+              <p class="text-center h3 font-weight-light checkout-text mt-2">Are your payment options secure?</p>
+              <p class="ml-3 mr-3 h6 font-weight-normal faq-text mt-2"><i class="fa fa-cc-stripe fa-lg"></i> - We take payments using Stripe which is a globally recognized payment platform.</p>
+              <p class="ml-3 mr-3 h6 font-weight-normal faq-text mt-2">At this time, we do not take payments from any other platform.</p>
+            </div>
+          </div>
+          <br>
+      </div>
+      <br>
+
+
+    {% if messages %}
+    {% endif %}
+    
+    <!-- Checkout sidebar -->
+
+</div>
+
+{% elif not cart %}
+<div id="navbar-margin">
+    <!-- maybe style this better? -->
+    <p class="h2 text-white text-center">Your cart is currently empty.</p>
+    <p class="h2 text-white text-center">Click <a href="{% url 'accounts:index' %}" class="text-warning">here</a>  to browse our listings.</p>
+</div>
+{% endif %}
+<div class="messages col-sm-6 cartalerts">
+    {% for message in messages %}
+    <div class="alert alert-warning text-center" role="alert">
+        <span{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</span>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

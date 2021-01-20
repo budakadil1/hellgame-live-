@@ -1,0 +1,52 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+<div class="edit-form">
+    <div class="container">
+        <div class="profile">
+            <h1 class="profileheader">Profile</h1>
+            <div class="profiletexts">
+                {% if user.profile %}
+                <p class="text-white h5 profileusername">Username: {{ user.username }}</p>
+                {% if user.profile.user_description %}<p class="text-white h4 font-weight-light break-text">Current Description: <br> {{ user.profile.user_description }}</p>
+                {% elif not user.profile.user_description %}
+                <p class="text-white h4 font-weight-light">Current Description: <br>This user does not have a description yet.</p>
+                {% endif %}
+                <br>
+                <div id="profile_edit">
+                    <form class="form-horizontal" method="post">
+                        {% csrf_token %}
+                        {% for field in form %}
+                        <p class="text-white h4 font-weight-light">{{field.label}}</p>
+                        {{ field }}
+                        {% endfor %}
+                        <br>
+                        <button class="mb-2 btn btn-outline-warning" type="button" onclick="hideMerchant()">Toggle Merchant Options</button>
+                        <br>
+                        <div id="toggle_merchant">
+                            {% for field in userform %}
+                            <p class="text-white h4 font-weight-light mb-3 mt-2">{{field.label}}</p>
+                            {{ field }}
+                            <p class="text-white h7 font-weight-light mb-3 mt-2">{{field.help_text}}</p>
+                            {% if field.errors %}
+                            <p style="color:rgb(85, 0, 0);">{{ field.errors}}</p>
+                            {% endif %}
+                            {% endfor %}
+                            <p class="text-warning h5 font-weight-normal mt-2 mb-3">
+                            You will need to activate your merchant status to be able to post listings. 
+                            Your current listings/reviews  <strong>will NOT be deleted</strong> if you choose to deactivate your merchant account, however, they will be hidden until you choose to turn it back on.
+                            </p>
+
+                        </div>
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary btn-lg">Save Changes</button>
+                    </form>
+                    {% endif %}
+                </div>
+    {% if messages %}
+    {{messages.message}}
+    {% endif %}
+<br>
+</div>
+{% endblock %}
+

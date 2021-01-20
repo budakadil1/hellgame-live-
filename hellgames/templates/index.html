@@ -1,0 +1,96 @@
+{% extends 'base_layout.html' %}
+{% load static %}
+{% block content %}
+<div class="jumbo-display navbar-margin p-3" style="background-image:linear-gradient(to bottom, rgba(51, 51, 51, 0.693), rgba(255, 49, 131, 0.453)), url('{% static 'jumbotron-optimized.png' %}')">
+  <div class="row justify-content-sm-center">
+    <div class="col-sm-12">
+      <h1 class="display-title mb-4 mt-5 text-center"><strong>The Safest Gamer Marketplace</strong></h1>
+    <p class="display-lead text-white text-center"><strong>Buy accounts with the HellGAME guarantee and security.</strong></p>
+    <hr class="my-4">
+    </div>
+    <div class="wrapper-center">
+      <p class="lead" style="margin-bottom: 0px;">
+        <a class="btn btn-lg text-white custombtnenc shadow-none mt-2 mb-2" href="{% url 'accounts:index' %}" role="button">Take me straight to the marketplace.</a>
+      </p>
+    </div>
+  </div>
+</div>
+<div class="container mt-3">
+  <div class="encourage">
+    <div class="row no-gutters">
+      <div class="col-sm-4">
+        <div class="enc-style mt-5 mb-3">
+          <i class="fa fa-lock enc-icons mt-5" aria-hidden="true"></i>
+          <p class="enc-title-text mt-2">Security</p>
+        </div>
+      </div>
+      <div class="col-sm-8">
+        <div class="enc-white mt-5 mb-3">
+          <div class="enc-text-area">
+            <p>At HellGAME, we always work to make sure our platform is safe and secure so our users can have the most enjoyable experience we can provide.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  <div class="row no-gutters">
+    <div class="col-sm-4">
+      <div class="enc-style mt-5 mb-3">
+        <i class="fa fa-tachometer mt-5 enc-icons" aria-hidden="true"></i>
+        <p class="enc-title-text mt-2">Speed</p>
+      </div>
+    </div>
+    <div class="col-sm-8">
+      <div class="enc-white mt-5 mb-3" >
+        <div class="enc-text-area">
+          <p>HellGAME constantly develops new systems that will get you your accounts faster and more secure so you can enjoy the game you want in the least amount of time.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="encourage">
+    <div class="row no-gutters">
+      <div class="col-sm-4">
+        <div class="enc-style mt-5 mb-3">
+          <i class="fa fa-money enc-icons mt-5" aria-hidden="true"></i>
+          <p class="enc-title-text mt-2">Low Prices</p>
+        </div>
+      </div>
+      <div class="col-sm-8 mb-2">
+        <div class="enc-white mt-5 mb-3">
+          <div class="enc-text-area">
+            <p>Our merchants are always offering competitive prices. We ensure that our prices are as low as they can be to ensure you can get more accounts.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <p class="favoritepicks text-center mb-3" >Here are our most popular account categories:</p>
+  <hr class="favpickline mb-4">
+  <div class="card-deck customdeck mt-3">
+    <div class="card custom-card">
+      <a class="stretched-link" href="{% url 'accounts:game_category' 'lol' %}"></a>
+      <div class="card-body text-center">
+        <p class="card-text custom-card-text">League of Legends</p>
+      </div>
+    </div>
+    <div class="card custom-card">
+      <a class="stretched-link" href="{% url 'accounts:game_category' 'valorant' %}"></a>
+      <div class="card-body text-center">
+        <p class="card-text custom-card-text">Valorant</p>
+      </div>
+    </div>
+    <div class="card custom-card">
+      <a class="stretched-link" href="{% url 'accounts:game_category' 'fortnite' %}"></a>
+      <div class="card-body text-center">
+        <p class="card-text custom-card-text">Fortnite</p>
+      </div>
+    </div>
+  </div>
+    <br>
+    <br>
+    <br>
+    <br>
+  </div>
+  
+{% endblock %}
